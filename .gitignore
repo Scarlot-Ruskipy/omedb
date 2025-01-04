@@ -1,0 +1,7 @@
+# Remove dist
+dist/
+# Remove node_modules
+node_modules/
+.env
+package-lock.json
+tsconfig.tsbuildinfo

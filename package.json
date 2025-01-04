@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@types/node": "^22.10.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1"
+  },
+  "scripts": {
+    "start": "node .\\dist\\index.js",
+    "build": "tsc -b && npm run public-copy",
+    "public-copy": "node .\\scripts\\copyweb.js",
+    "auto": "npm run build && npm run start"
+  }
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OmeDB Interface</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style omedb-loader>
+      /* Page loader */
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f1f1f1;
+      }
+
+      .loader {
+        border: 8px solid #a5a5a5;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+      }
+
+      [hidden-for-loader] {
+        display: none;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <script src="public/scripts/main.js"></script>
+  </head>
+  <body>
+    <div class="loader" omedb-loader></div>
+    <main hidden-for-loader>
+      <header>
+        <nav class="nav" omedb-navbar>
+          <ul class="nav__list" omedb-nav-list>
+            <li class="nav__item" onclick="OpenHome()">
+              <div class="nav__button">
+                <i class="fa-solid fa-plus"></i>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <section class="content">
+        <section omedb-page-home hidden>
+          <div class="centered">
+            <div class="home_content">
+              <div class="titleandsearch">
+                <h1>Open a Table</h1>
+                <input type="text" placeholder="Search for a table" />
+              </div>
+              <hr
+                style="width: 100%; border-radius: 999px; margin-top: 1.5rem"
+              />
+              <h1>Work in Progress</h1>
+            </div>
+          </div>
+        </section>
+
+        <section omedb-page-content hidden>
+          <h1>Content</h1>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
