@@ -1,20 +1,48 @@
-const os = require('os');
+const fs = require('fs');
 const path = require('path');
-const exec = require('child_process').exec;
+const os = require('os');
+const { execSync } = require('child_process');
 
-const OperatingSystem = os.platform();
-const scriptName = OperatingSystem === 'win32' ? 'copyweb.bat' : 'copyweb.sh';
-const copyWeb = path.join(__dirname, scriptName);
+const distDir = path.join(__dirname, '..', 'dist', 'web');
+const srcDir = path.join(__dirname, '..', 'src', 'web');
 
-exec(copyWeb, (error, stdout, stderr) => {
-    if (error) {
-        console.error(`exec error: ${error}`);
-        return;
+function createDirIfNotExists(dir) {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
     }
+}
 
-    console.log(`stdout: ${stdout}`);
-
-    if (stderr) {
-        console.error(`stderr: ${stderr}`);
+function removeDir(dir) {
+    if (fs.existsSync(dir)) {
+        fs.rmSync(dir, { recursive: true, force: true });
     }
-});
+}
+
+function copyFiles(src, dest) {
+    createDirIfNotExists(dest);
+    if (os.platform() === 'win32') {
+        execSync(`xcopy ${src} ${dest} /E /H /C /I`);
+    } else {
+        execSync(`cp -r ${src}/* ${dest}`);
+    }
+}
+
+function copyWebFiles() {
+    createDirIfNotExists(distDir);
+
+    const publicDir = path.join(distDir, 'public');
+    const htmlDir = path.join(distDir, 'html');
+
+    removeDir(publicDir);
+    removeDir(htmlDir);
+
+    createDirIfNotExists(publicDir);
+    createDirIfNotExists(htmlDir);
+
+    copyFiles(path.join(srcDir, 'public'), publicDir);
+    copyFiles(path.join(srcDir, 'html'), htmlDir);
+
+    console.log('Web files copied successfully.');
+}
+
+copyWebFiles();
