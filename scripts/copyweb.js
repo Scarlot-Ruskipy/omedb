@@ -25,7 +25,7 @@ function copyFiles(src, dest) {
     } else {
         execSync(`cp -r ${src}/* ${dest}`);
     }
-}
+} 
 
 function copyWebFiles() {
     createDirIfNotExists(distDir);
