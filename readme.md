@@ -14,8 +14,14 @@ Welcome to the public repository of OmeDB. This database will be used in my proj
 ## Upcoming Features 🗃️
 
 - 🌐 Web Interface | Manage and interact with the database using the web interface
+
 - 🚧 Client Wrapper | Interact with the database using our NPM package
+
 - 💻 Operating System Support | Use any operating system to host it
+
+- 🔗 Shared instances | Ensure the database will be up for a while and not be under pressure when handling too much load for queries
+
+- 📂 Command Line | To ensure easy usage the command line will ask what options you want to have enabled, incase you don't want a long string to run, we offer storing a config file of all options selected so that the questionair is done once.
 
 ## Installation 🛠️
 
@@ -27,10 +33,24 @@ To get started with this project, follow these steps:
 
 ## Usage 📖
 
-To start the project run the command below
+To start the project run the command below; This will start the database without the Web-Interface.
 
 ```bash
 npm run auto
+```
+
+To start with the Web-Interface you can pass options in the npm command.
+
+| Option       | Description                                      |
+|--------------|--------------------------------------------------|
+| `interface`      | Start the database with the Web-Interface        |
+| `port <n>` | Specify the port number for the Web-Interface    |
+| `debug` | Enable debugging on OmeDB (Work in Progress)    |
+
+Example:
+
+```
+npm run auto interface port 9999
 ```
 
 ## Credits 🙏
