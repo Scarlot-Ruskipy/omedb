@@ -1,6 +1,10 @@
+import { config } from "dotenv";
+config();
+
 import server from "./web";
-(global as any).DEBUG = false; // Preparing for the future debug update
+let debug = false;
 let port = process.env.WWW_PORT || 4048;
+(global as any).DEBUG = (message: any) => {};
 
 const CommandArgs = process.argv.slice(2);
 
@@ -9,8 +13,13 @@ if (CommandArgs.includes("interface")) {
     console.log(`OmeDB interface has started on port ${port}`);
   });
 } else if (CommandArgs.includes("debug")) {
-  (global as any).DEBUG = true;
+  debug = true;
+
+  (global as any).DEBUG = (message: any) => {
+    if (debug) {
+      console.log(message);
+    }
+  };
 }
 
-require("./data/environment");
 require("./transport");
