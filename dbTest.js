@@ -16,7 +16,6 @@ socket.on('data', (data) => {
         const message = data.toString();
         if (message.includes('auth') && JSON.parse(data).auth) {
             const credentials = {
-                username: 'your_db_username',
                 password: 'your_db_password',
                 database: 'your_db_name'
             };
@@ -37,7 +36,11 @@ socket.on('data', (data) => {
                     socket.write(JSON.stringify({
                         database: credentials.database,
                         query: `
-                            SELECT * FROM your_table_name
+                            IF TABLE EXISTS your_table_name THEN
+                                SELECT * FROM your_table_name
+                            ELSE
+                                CREATE TABLE your_table_name (id INT PRIMARY KEY, name VARCHAR(255))
+                            END IF
                         `
                     }));
                 } else if (isQuery) {

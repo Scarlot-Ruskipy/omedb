@@ -4,9 +4,9 @@ import connect from "../data/database";
 let Databases: any = [];
 
 const TCPServer = net.createServer();
-let port = 4047;
+let port = process.env.TCP_PORT || 4047;
 
-function startServer(port: number): void {
+function startServer(port: number | string): void {
   TCPServer.listen(port, () => {
     console.log(`Server listening on port ${port}`);
   }).on("error", (err: NodeJS.ErrnoException) => {
@@ -28,12 +28,12 @@ TCPServer.on("connection", (socket: net.Socket) => {
   console.log(`New client connection from ${remoteAddress}`);
 
   socket.on("data", (data: Buffer) => {
+    console.log(data.toString());
     try {
       const message = JSON.parse(data.toString());
       if (message.auth) {
-        const { username, password, database } = message.auth;
+        const { password, database } = message.auth;
         if (
-          username === process.env.DB_USERNAME &&
           password === process.env.DB_PASSWORD
         ) {
           socket.write(

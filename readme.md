@@ -10,14 +10,13 @@ Welcome to the public repository of OmeDB. This database will be used in my proj
 - 🔐 Encryption | Ensures the database is secure and safe
 - 📨 Speed | It handles queries within 0.6ms
 - 🌟 Easy to setup | Run 1 command to build and start
+- 💻 Operating System Support | Use any operating system to host it
 
 ## Upcoming Features 🗃️
 
 - 🌐 Web Interface | Manage and interact with the database using the web interface
 
 - 🚧 Client Wrapper | Interact with the database using our NPM package
-
-- 💻 Operating System Support | Use any operating system to host it
 
 - 🔗 Shared instances | Ensure the database will be up for a while and not be under pressure when handling too much load for queries
 
@@ -44,14 +43,33 @@ To start with the Web-Interface you can pass options in the npm command.
 | Option       | Description                                      |
 |--------------|--------------------------------------------------|
 | `interface`      | Start the database with the Web-Interface        |
-| `port <n>` | Specify the port number for the Web-Interface    |
 | `debug` | Enable debugging on OmeDB (Work in Progress)    |
 
 Example:
 
 ```
-npm run auto interface port 9999
+npm run auto interface
 ```
+
+## Configuration ⚙️
+
+All the port configurations and the database password are stored in the `.env` file. Here is an example of a configured `.env` file:
+
+```env
+#############################################
+#           Database requirements           #
+#############################################
+DB_PASSWORD=uOj07YQ?4n&B
+ENCRYPTION_KEY=f41f009cb3e96b5329aa89a61149a0f39eeec31e2216c8678679da159ccd9bcc
+TCP_PORT=6520	# Default: 4047
+
+#############################################
+#             WEB requirements              #
+#############################################
+WWW_PORT=5555 # Default: 4048
+```
+
+Make sure to update the `.env` file with your own configurations before running the project. You can use the example provided in the `.env.example` file as a starting point.
 
 ## Credits 🙏
 
