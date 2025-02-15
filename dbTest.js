@@ -36,11 +36,7 @@ socket.on('data', (data) => {
                     socket.write(JSON.stringify({
                         database: credentials.database,
                         query: `
-                            IF TABLE EXISTS your_table_name THEN
-                                SELECT * FROM your_table_name
-                            ELSE
-                                CREATE TABLE your_table_name (id INT PRIMARY KEY, name VARCHAR(255))
-                            END IF
+                            SELECT * FROM users
                         `
                     }));
                 } else if (isQuery) {

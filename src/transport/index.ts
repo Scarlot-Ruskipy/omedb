@@ -39,7 +39,7 @@ TCPServer.on("connection", (socket: net.Socket) => {
           socket.write(
             JSON.stringify({
               connection: "success",
-              auth: true,
+              auth: "complete",
             })
           );
 

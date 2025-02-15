@@ -69,20 +69,20 @@ TCP_PORT=6520	# Default: 4047
 WWW_PORT=5555 # Default: 4048
 ```
 
-Make sure to update the `.env` file with your own configurations before running the project. You can use the example provided in the `.env.example` file as a starting point.
+Make sure to update the `.env` file with your own configurations before running the project. You can use the example provided in the [**`env.example`**](.env.example). file as a starting point.
 
 ## Credits 🙏
 
-This project was created by **Scarlot Ruskipy**. Special thanks to:
+This project was created by [**Scarlot Ruskipy**](https://github.com/Scarlot-Ruskipy). Special thanks to:
 
-- [iabdelra7man](https://github.com/iabdelra7man)
+- [**iabdelra7man**](https://github.com/iabdelra7man)
 
 ## License 📜
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [**MIT License**](LICENSE).
 
 ## Contact 📬
 
-If you have any questions or feedback, feel free to reach out to me on my [Discord](https://discord.gg/YydQAcfuC7).
+If you have any questions or feedback, feel free to reach out to me on my [**Discord**](https://discord.gg/YydQAcfuC7).
 
 Thank you for visiting and happy coding! 🎉
