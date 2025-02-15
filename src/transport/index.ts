@@ -27,6 +27,10 @@ TCPServer.on("connection", (socket: net.Socket) => {
 
   console.log(`New client connection from ${remoteAddress}`);
 
+  socket.on("ping", () => {
+    socket.write("pong");
+  });
+
   socket.on("data", (data: Buffer) => {
     console.log(data.toString());
     try {

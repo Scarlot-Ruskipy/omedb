@@ -78,8 +78,9 @@ export default function Connect(database: string) {
     }
 
     const columnsArray = columns.split(",").map((col) => {
-      const [name, type] = col.trim().split(/\s+/);
-      return { name, type };
+      const [name, type, ...rest] = col.trim().split(/\s+/);
+      const defaultValue = rest.join(" ").match(/DEFAULT (.+)/)?.[1];
+      return { name, type, defaultValue };
     });
 
     databases[tableName] = { columns: columnsArray, rows: [] };
@@ -119,6 +120,16 @@ export default function Connect(database: string) {
     const row: any = {};
     columnsArray.forEach((col, index) => {
       row[col] = valuesArray[index];
+    });
+
+    databases[tableName].columns.forEach((col: any) => {
+      if (col.defaultValue && !row[col.name]) {
+        if (col.defaultValue.toUpperCase() === "CURRENT_TIMESTAMP") {
+          row[col.name] = new Date().toISOString();
+        } else {
+          row[col.name] = col.defaultValue;
+        }
+      }
     });
 
     databases[tableName].rows.push(row);
