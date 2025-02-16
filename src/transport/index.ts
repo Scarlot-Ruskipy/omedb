@@ -1,4 +1,5 @@
 import * as net from "net";
+import * as bcrypt from "bcrypt";
 import connect from "../data/database";
 
 let Databases: any = [];
@@ -28,21 +29,25 @@ TCPServer.on("connection", (socket: net.Socket) => {
   console.log(`New client connection from ${remoteAddress}`);
 
   socket.on("data", (data: Buffer) => {
-    console.log(data.toString());
+    (globalThis as any).DEBUG(data.toString());
     try {
       if (data.toString() === "PING") {
         socket.write("PONG");
-        
+
         return;
       }
 
       const message = JSON.parse(data.toString());
 
       if (message.auth) {
-        const { password, database } = message.auth;
-        if (
-          password === process.env.DB_PASSWORD
-        ) {
+        const { user, password, database } = message.auth;
+
+        const PasswordMatch = bcrypt.compareSync(
+          password,
+          process.env.DB_PASSWORD ?? ""
+        );
+
+        if (PasswordMatch && user === process.env.DB_USER) {
           socket.write(
             JSON.stringify({
               connection: "success",
@@ -71,8 +76,9 @@ TCPServer.on("connection", (socket: net.Socket) => {
         } else {
           socket.write(
             JSON.stringify({
-              connection: "failed",
+              connection: "error",
               auth: false,
+              message: "Unauthorized | Invalid User or Password",
             })
           );
           socket.end();
