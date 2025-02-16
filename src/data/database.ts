@@ -32,6 +32,7 @@ export default function Connect(database: string) {
     callback: (err: Error | any, result: any) => void
   ) => {
     const queryType = query.trim().split(" ")[0].toUpperCase();
+
     let result: any;
 
     try {
@@ -172,6 +173,15 @@ export default function Connect(database: string) {
     }
 
     const [, tableName, condition] = match;
+
+    if (condition == "*") {
+      databases[tableName].rows = [];
+      const tableFile = path.join(schemasDir, `${tableName}.omedb`);
+      const encryptedData = encryptData(databases[tableName]);
+      fs.writeFileSync(tableFile, encryptedData);
+      return;
+    }
+
     const [column, value] = condition
       .split("=")
       .map((str) => str.trim().replace(/['"]/g, ""));
