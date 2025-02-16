@@ -37,7 +37,7 @@ export default function Connect(database: string) {
 
     try {
       switch (queryType) {
-        case "CREATE":
+        case "NEW":
           result = handleCreateTable(query);
           callback(null, { message: "Table created successfully" });
           break;
@@ -52,9 +52,12 @@ export default function Connect(database: string) {
             data: result,
           });
           break;
-        case "DELETE":
+        case "DROP":
           handleDelete(query);
-          callback(null, { message: "Data deleted successfully" });
+          callback(null, { message: "Data dropped successfully" });
+          break;
+        case "UPDATE":
+          callback(new Error("UPDATE query not supported yet"), null);
           break;
         default:
           callback(new Error("Unknown query type"), null);
@@ -65,15 +68,15 @@ export default function Connect(database: string) {
   };
 
   function handleCreateTable(query: string) {
-    let match = query.match(/CREATE TABLE (IF NOT EXISTS )?(\w+) \((.+)\);?/s);
+    let match = query.match(/NEW TABLE (\w+) \((.+)\);?/s);
     if (!match) {
-      match = query.match(/create table (if not exists )?(\w+) \((.+)\);?/s);
+      match = query.match(/new table (\w+) \((.+)\);?/s);
 
       if (!match) throw new Error("Invalid CREATE TABLE syntax");
     }
 
-    const [, ifNotExists, tableName, columns] = match;
-    if (ifNotExists && databases[tableName]) {
+    const [, tableName, columns] = match;
+    if (databases[tableName]) {
       console.log(`Table ${tableName} already exists, skipping creation.`);
       return { tableName, columnsArray: databases[tableName].columns };
     }
@@ -125,10 +128,18 @@ export default function Connect(database: string) {
 
     databases[tableName].columns.forEach((col: any) => {
       if (col.defaultValue && !row[col.name]) {
-        if (col.defaultValue.toUpperCase() === "CURRENT_TIMESTAMP") {
-          row[col.name] = new Date().toISOString();
-        } else {
-          row[col.name] = col.defaultValue;
+        switch (col.defaultValue) {
+          case "CURRENT_TIMESTAMP":
+            row[col.name] = new Date().toISOString();
+            break;
+          case "NULL":
+            row[col.name] = null;
+            break;
+          case "UPDATE_TIMESTAMP":
+            row[col.name] = new Date().toISOString();
+            break;
+          default:
+            row[col.name] = col.defaultValue;
         }
       }
     });
@@ -166,13 +177,13 @@ export default function Connect(database: string) {
   }
 
   function handleDelete(query: string) {
-    let match = query.match(/DELETE FROM (\w+) WHERE (.+)/);
+    let match = query.match(/DROP (.+) FROM (\w+)/);
     if (!match) {
-      match = query.match(/delete from (\w+) where (.+)/);
+      match = query.match(/DROP (.+) from (\w+)/);
       if (!match) throw new Error("Invalid DELETE syntax");
     }
 
-    const [, tableName, condition] = match;
+    const [, condition, tableName] = match;
 
     if (condition == "*") {
       databases[tableName].rows = [];
