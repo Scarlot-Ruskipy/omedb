@@ -59,8 +59,9 @@ All the port configurations and the database password are stored in the `.env` f
 #############################################
 #           Database requirements           #
 #############################################
-DB_PASSWORD=uOj07YQ?4n&B
-ENCRYPTION_KEY=f41f009cb3e96b5329aa89a61149a0f39eeec31e2216c8678679da159ccd9bcc
+DB_USER="db_user" 
+DB_PASSWORD="$2a$12$Z5G.g6L6rubsl/GcbI4OguA/AeARcpgI7DNURj6CAvmBrSSA8Yr9O" #(https://bcrypt-generator.com/) [uOj07YQ?4n&B]
+ENCRYPTION_KEY="f41f009cb3e96b5329aa89a61149a0f39eeec31e2216c8678679da159ccd9bcc" #32 Bytes key (crypto.randomBytes(32).toString('hex'))
 TCP_PORT=6520	# Default: 4047
 
 #############################################
@@ -79,7 +80,7 @@ This project was created by [**Scarlot Ruskipy**](https://github.com/Scarlot-Rus
 
 ## License 📜
 
-This project is licensed under the [**MIT License**](LICENSE).
+This project is licensed under [**Scarlot's Projects Open-source License**](License.pdf)!
 
 ## Contact 📬
 
